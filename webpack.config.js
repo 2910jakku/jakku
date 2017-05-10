@@ -8,7 +8,8 @@ var config = {
     entry:{
         "order":jF +"/order.js",
         "kitchen":jF+"/kitchen.js",
-        "management":jF+"/management.js"
+        "management":jF+"/management.js",
+        "order_board":jF+"/order_board.js"
     },
     output:{
         filename:"[name]bundle.js",
