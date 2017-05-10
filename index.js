@@ -39,34 +39,65 @@ app.get("/", function(req, resp){
 });
 
 app.post("/order",function(req,resp){
+    // read menu from db
    if(req.body.type == "read menu"){
        var query = "select * from food where available = true";
        var result = runQuery(query,function(result){
            resp.send(result);
        });
    } 
+    // submit order to db
     if(req.body.type == "submit order"){
-        var order_item = req.body.order_item;
+        var order_item_id = req.body.order_item_id;
         var order_quantity = req.body.order_quantity;
-        var order_id;
+        var NumberRegEx = /^[1-9][0-9]{0,2}?$/;
         
+        // input validation
+        for(var i=0;i<order_item_id.length;i++){
+            var quantity = order_quantity[i];
+            // test quantity inputs is between 1-999
+            if(!NumberRegEx.test(quantity)){
+                var obj = {
+                    status:"input quantity error"
+                }
+                resp.send(obj);
+            }
+            
+            // test both array match same length
+            if(order_item_id.length != order_quantity.length){
+                var obj = {
+                    status:"input not match"
+                }
+                resp.send(obj);
+            }
+        }
+        
+        // place the order
+        var order_id;
         var query = "INSERT INTO orders (order_status) VALUES (0) RETURNING id";
         runQuery(query,function(result){
             order_id = result[0].id;
-            for(var i=0;i<order_item.length;i++){
-                var item = order_item[i];
+            for(var i=0;i<order_item_id.length;i++){
+                var item_id = order_item_id[i];
                 var quantity = order_quantity[i];
 
-                var query2 = "INSERT INTO order_details (order_number,food_number,quantity,status) VALUES ("+order_id+","+item+","+quantity+","+"0"+")";
+                var query2 = "INSERT INTO order_details (order_number,food_number,quantity,status) VALUES ("+order_id+","+item_id+","+quantity+","+"0"+")";
                 console.log(query2);
                 runQuery(query2,function(result){
-
+    
                 });
             }
+            var obj = {
+                status:"order successfully placed",
+                order_id:order_id
+            }
+            resp.send(obj);
         });
-        
-        
     }
+});
+
+app.post("/board",function(req,resp){
+    
 });
 
 // run query
