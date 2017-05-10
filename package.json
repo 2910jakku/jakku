@@ -14,10 +14,18 @@
     "express-session": "^1.15.2",
     "jquery": "^3.2.1",
     "pg": "^6.1.5",
-    "socket.io": "^1.7.3",
-    "webpack": "^2.3.2"
+    "socket.io": "^1.7.4",
+    "webpack": "^2.5.1"
   },
   "devDependencies": {
     "jshint": "^2.9.4"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kathyamorn/jakku.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kathyamorn/jakku/issues"
+  },
+  "homepage": "https://github.com/kathyamorn/jakku#readme"
 }

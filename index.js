@@ -16,8 +16,7 @@ var io = require("socket.io")(server);
 
 // postgres
 // database url
-var dbURL = "postgres://postgres:1994Daniel@localhost:5432/jakku_fastfood";
-
+var dbURL = "postgres://postgres:sukhman20@localhost:5432/webpro";
 
 // use body parser
 app.use(bodyParser.urlencoded({
@@ -36,6 +35,16 @@ app.use("/scripts",express.static("build"));
 //root folder
 app.get("/", function(req, resp){
     resp.sendFile(pF+"/order.html");
+});
+
+//kitchen page
+app.get("/kitchen", function(req, resp){
+    resp.sendFile(pF+"/kitchen.html");
+});
+
+//kitchen login page
+app.get("/kitchenlogin", function(req, resp){
+    resp.sendFile(pF+"/kitchen_login.html");
 });
 
 app.post("/order",function(req,resp){
@@ -68,6 +77,41 @@ app.post("/order",function(req,resp){
         
     }
 });
+
+/*-----------------------------KITCHEN LOGIN---------------------------*/
+//kitchen login
+app.post("/kitchenlogin", function(req, resp){
+    var username = req.body.username;
+    var password = req.body.password;
+    
+    pg.connect(dbURL, function(err, client, done){
+        if(err){
+            console.log(err);
+            resp.end("FAIL");
+        }
+        
+        client.query("SELECT username, id FROM employee WHERE username = $1 AND password = $2", [username, password], function(err, result){
+            done();
+            if(err){
+                console.log(err);
+                resp.end("FAIL");
+            }
+            
+            if(result.rows.length > 0){
+                req.session.username = result.rows[0].username;
+                req.session.id = result.rows[0].id;
+                var obj = {
+                    status:"success"
+                }
+                
+                resp.send(obj);
+            } else {
+                resp.end("FAIL");
+            }
+        })
+    })
+})
+/*-----------------------------KITCHEN LOGIN ENDS---------------------------*/
 
 // run query
 function runQuery(myQuery,callback){
