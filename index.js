@@ -16,7 +16,7 @@ var io = require("socket.io")(server);
 
 // postgres
 // database url
-var dbURL = "postgres://postgres:sukhman20@localhost:5432/webpro";
+var dbURL = process.env.DATABASE_URL || "postgres://localhost:5432/jakku_project";
 
 // use body parser
 app.use(bodyParser.urlencoded({
@@ -109,8 +109,8 @@ app.post("/kitchenlogin", function(req, resp){
                 resp.end("FAIL");
             }
         })
-    })
-})
+    });
+});
 /*-----------------------------KITCHEN LOGIN ENDS---------------------------*/
 
 // run query
