@@ -9,7 +9,7 @@ var config = {
         "order":jF +"/order.js",
         "kitchen":jF+"/kitchen.js",
         "management":jF+"/management.js",
-        "kitchen_login":jF+"/kitchen_login.js"
+        "order_board":jF+"/order_board.js"
     },
     output:{
         filename:"[name]bundle.js",
