@@ -60,6 +60,7 @@ app.post("/order",function(req,resp){
         var order_item_id = req.body.order_item_id;
         var order_quantity = req.body.order_quantity;
         var NumberRegEx = /^[1-9][0-9]{0,2}?$/;
+
         
         // input validation
         for(var i=0;i<order_item_id.length;i++){
@@ -81,6 +82,28 @@ app.post("/order",function(req,resp){
             }
         }
         
+        
+        // input validation
+        for(var i=0;i<order_item_id.length;i++){
+            var quantity = order_quantity[i];
+            // test quantity inputs is between 1-999
+            if(!NumberRegEx.test(quantity)){
+                var obj = {
+                    status:"input quantity error"
+                }
+                resp.send(obj);
+            }
+            
+            // test both array match same length
+            if(order_item_id.length != order_quantity.length){
+                var obj = {
+                    status:"input not match"
+                }
+                resp.send(obj);
+            }
+        }
+        
+
         // place the order
         var order_id;
         var query = "INSERT INTO orders (order_status) VALUES (0) RETURNING id";
@@ -105,7 +128,7 @@ app.post("/order",function(req,resp){
     }
 });
 
-<<<<<<< HEAD
+
 /*-----------------------------KITCHEN LOGIN---------------------------*/
 //kitchen login
 app.post("/kitchenlogin", function(req, resp){
@@ -140,11 +163,11 @@ app.post("/kitchenlogin", function(req, resp){
     });
 });
 /*-----------------------------KITCHEN LOGIN ENDS---------------------------*/
-=======
+
+
 app.post("/board",function(req,resp){
     
 });
->>>>>>> develop
 
 // run query
 function runQuery(myQuery,callback){
