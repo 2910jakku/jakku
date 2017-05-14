@@ -43,7 +43,12 @@ app.get("/board",function(req,resp){
 });
 
 app.get("/kitchen",function(req,resp){
-   resp.sendFile(pF+"/kitchen.html");  
+    if(req.session.username){
+        resp.sendFile(pF+"/kitchen.html");  
+    }else{
+        resp.sendFile(pF+"/kitchen_login.html");
+    }
+   
 });
 
 app.get("/kitchenlogin", function(req, resp){
