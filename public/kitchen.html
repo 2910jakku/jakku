@@ -1,8 +1,25 @@
 <!DOCTYPE HTML>
 <html>
+    <style>
+        table, th, td{
+            border:1px solid black;
+        }
+    </style>
     <head>
         <title>Kitchen</title>
     </head>
-    <body></body>
+    <body id="display">
+        <table id="order_list_table">
+            <tr>
+                <th>order number</th>
+                <th>detail number</th>
+                <th>item name</th>
+                <th>quantity</th>
+                <th>status</th>
+                <th>done?</th>
+            </tr>
+        </table>
+    </body>
     <script src="/scripts/kitchenbundle.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
 </html>

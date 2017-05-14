@@ -1,6 +1,7 @@
 var menu = document.getElementById("menu");
 var order_list = document.getElementById("order_list");
 var placeButton = document.getElementById("placeButton");
+var statusButton = document.getElementById("statusButton");
 var order_item_id = [];
 var order_quantity = [];
 
@@ -23,15 +24,18 @@ $(document).ready(function(){
                 success:function(resp){
                     console.log(resp);
                     if(resp.status == "order successfully placed"){
-                        alert("Your order is placed. Your order is #" + resp.order_id +". You can chek your order by clicking 'view order status' button");
+                        alert("Your order is placed. Your order is #" + resp.order_id +". You can check your order by clicking 'view order status' button");
                         location.reload();
                     }else{
-                        alert(resp.status);   
+                        alert(resp.status);
                     }
                 }
             });
         }
         
+    });
+    statusButton.addEventListener("click",function(){
+        location.href = "/board";
     });
 });
     
@@ -49,7 +53,7 @@ function documentReady(callback){
                 ndiv = document.createElement("div");
                 ndiv.innerHTML = "<div id='itemName'> Name: " + resp[i].name; + "</div>";
                 ndiv.innerHTML += "<div id='itemPrice'> Price: $" + resp[i].price; + "</div>";
-                ndiv.innerHTML += "<div> Quantity: <input type='text' value = '1' id='itemQuantity' placeholder ='enter number'></div>";
+                ndiv.innerHTML += "<div id='itemQuantity'> Quantity: <input type='text' value = '1' id='itemQuantity' placeholder ='enter number'></div>";
                 ndiv.innerHTML += "<button type='button' class='addBtn'>add</button>";
                
                 ndiv.id = "food_item"+resp[i].id;
@@ -71,13 +75,11 @@ function addEvent(){
                 var parent_div_id = this.parentNode.id;
                 var item_id = parseInt(parent_div_id[parent_div_id.length-1]);
 
-                var quantity = $("#"+parent_div_id+" #itemQuantity").val();
+                var quantity = $("#"+parent_div_id+" #itemQuantity")[1].value;
                 console.log(quantity);
-                console.log(food_list);
-                console.log(item_id);
                 var item_name = food_list[item_id - 1].name;
 
-                order_list.innerHTML += "<div>Name: "+item_name+ " Quantity: " +quantity+"</div>";
+                order_list.innerHTML += "<div>Name: "+item_name+ " Quantity: " +quantity +"</div>";
 
                 order_item_id.push(item_id);
                 order_quantity.push(quantity);
