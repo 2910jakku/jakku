@@ -16,7 +16,7 @@ var io = require("socket.io")(server);
 
 // postgres
 // database url
-var dbURL = "postgres://postgres:1994Daniel@localhost:5432/jakku_fastfood";
+var dbURL = process.env.DATABASE_URL || "postgres://postgres:sukhman20@localhost:5432/webpro";
 
 
 // use body parser
@@ -50,6 +50,57 @@ app.get("/kitchen",function(req,resp){
     }
    
 });
+
+app.get("/management", function(req, resp){
+    resp.sendFile(pF+"/management.html")
+});
+
+app.get("/adminlogin", function(req, resp){
+    resp.sendFile(pF+"/admin_login.html");
+});
+
+
+app.post("/adminLogin", function(req, resp){
+    
+    var password = req.body.password;
+    var username = req.body.username;
+    
+    
+    pg.connect(dbURL, function(err, client, done){
+        if(err){
+            console.log(err);
+            var obj = {
+                status: "fail",
+                msg:" CONNECTION FAILED"
+            }
+            resp.send(obj);
+        }
+        client.query("SELECT username, id FROM employee WHERE username = $1 and password = $2",
+                    [ username, password], function(err, result){
+            done();
+            if(err){
+                console.log(err);
+            var obj = {
+                status: "fail",
+                msg:" CONNECTION FAILED"
+            }
+            }
+            if(result.rows.length >0){
+                req.session.id = result.rows[0].id;
+                req.session.username = result.rows[0].username;
+                var obj = {
+                    status: "success"
+                }
+                resp.send(obj);
+            }else{
+                resp.end("USERNAME AND PASSWORD NOT FOUND");
+            }
+            
+            
+        })
+    });
+});
+
 
 app.get("/kitchenlogin", function(req, resp){
     resp.sendFile(pF+"/kitchen_login.html");
