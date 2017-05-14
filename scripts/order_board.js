@@ -12,15 +12,6 @@ $(document).ready(function(){
         },
         success:function(resp){
             console.log(resp);
-            /*for(var i=0;i<resp.length;i++){
-                var time = resp[i].order_date.replace(/T/, ' ').replace(/\..+/, '');
-                ndiv = document.createElement("tr");
-                ndiv.id = resp[i].id;
-                ndiv.innerHTML = "<td>"+resp[i].id+"</td><td>"+resp[i].order_status+"</td><td>"+time+"</td>";
-
-                status_board.appendChild(ndiv);
-                
-            }*/
             loadOrderDetails(resp);
             
         }

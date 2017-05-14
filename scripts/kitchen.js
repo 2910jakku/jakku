@@ -13,31 +13,6 @@ $(document).ready(function(){
         success:function(resp){
             console.log(resp);
             loadOrders(resp);
-            /*xdiv = document.createElement("div");
-            display.appendChild(xdiv);
-            for(var i=0;i<resp.length;i++){
-                // create table and button to append data into page
-                
-                nDBtn = document.createElement("button");
-                nDBtn.innerHTML = "done";
-                nDBtn.id = resp[i].id;
-                ndiv = document.createElement("tr");
-                ndiv.id = resp[i].id;
-                ndiv.innerHTML = "<td>"+resp[i].order_number+"</td><td>"+resp[i].id+"</td><td>"+resp[i].name+"</td><td>"+resp[i].quantity+"</td><td>"+resp[i].status+"</td>";
-                ndiv.appendChild(nDBtn);
-                
-                // once the "done" button clicked emit the oreder detail id and update db in server
-                nDBtn.addEventListener("click",function(){
-                    console.log(this.id);
-                    //console.log(resp[this.id].order_number);
-                    var obj = {
-                        order_detail_id:this.id
-                        //order_number:order_id
-                    };
-                    socket.emit("order detail done",obj);
-                });
-                order_list_table.appendChild(ndiv);
-            }*/
         }
     });
 });
