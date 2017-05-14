@@ -46,6 +46,44 @@ app.get("/kitchen",function(req,resp){
    resp.sendFile(pF+"/kitchen.html");  
 });
 
+app.get("/kitchenlogin", function(req, resp){
+    resp.sendFile(pF+"/kitchen_login.html");
+});
+/*-----------------------------KITCHEN LOGIN---------------------------*/
+//kitchen login
+app.post("/kitchenlogin", function(req, resp){
+    var username = req.body.username;
+    var password = req.body.password;
+    
+    pg.connect(dbURL, function(err, client, done){
+        if(err){
+            console.log(err);
+            resp.end("FAIL");
+        }
+        
+        client.query("SELECT username, id FROM employee WHERE username = $1 AND password = $2", [username, password], function(err, result){
+            done();
+            if(err){
+                console.log(err);
+                resp.end("FAIL");
+            }
+            
+            if(result.rows.length > 0){
+                req.session.username = result.rows[0].username;
+                req.session.id = result.rows[0].id;
+                var obj = {
+                    status:"success"
+                }
+                
+                resp.send(obj);
+            } else {
+                resp.end("FAIL");
+            }
+        })
+    });
+});
+/*-----------------------------KITCHEN LOGIN ENDS---------------------------*/
+
 app.post("/order",function(req,resp){
     // read menu from db
    if(req.body.type == "read menu"){
