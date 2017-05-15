@@ -33,6 +33,8 @@ app.use(session({
 
 app.use("/scripts",express.static("build"));
 
+app.use("/css",express.static("css"));
+
 //root folder
 app.get("/", function(req, resp){
     resp.sendFile(pF+"/order.html");
