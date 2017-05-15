@@ -1,0 +1,62 @@
+
+body{
+    background-image: url("http://i2.wp.com/www.cgmeetup.net/home/wp-content/uploads/2015/12/Star-Wars-Battlefront-Battle-of-Jakku-Gameplay-Trailer-4.jpg");
+    background-repeat: no-repeat;
+    background-size: 100% 720px;
+}
+.container{
+    width: 500px;
+    height: 400px;
+    text-align: center;
+    background-color: #3F7EA6;
+    border-radius: 4px;
+    margin: 0 auto;
+    margin-top: 150px;
+}
+.container img{
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    margin-top: -60px;
+    margin-bottom: 30px;
+}
+input{
+    height: 45px;
+    width: 300px;
+    font-size: 18px;
+    margin-bottom: 20px;
+    padding-left: 30px;
+}
+button {
+    background-color: #D9763D;
+    border: 1 px solid white;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+button span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+button span:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+button:hover span {
+  padding-right: 25px;
+}
+
+button:hover span:after {
+  opacity: 1;
+  right: 0;
+}
