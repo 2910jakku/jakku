@@ -19,5 +19,13 @@
   },
   "devDependencies": {
     "jshint": "^2.9.4"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kathyamorn/jakku.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kathyamorn/jakku/issues"
+  },
+  "homepage": "https://github.com/kathyamorn/jakku#readme"
 }
