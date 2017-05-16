@@ -10,7 +10,8 @@ $(document).ready(function(){
             type:"post",
             data:{
                 password:password,
-                username:username
+                username:username,
+                position:"admin"
             },
             success:function(resp){
                 if(resp.status == "success"){
