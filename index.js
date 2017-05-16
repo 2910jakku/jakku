@@ -16,7 +16,7 @@ var io = require("socket.io")(server);
 
 // postgres
 // database url
-var dbURL = process.env.DATABASE_URL || "postgres://postgres:sukhman20@localhost:5432/webpro";
+var dbURL = process.env.DATABASE_URL || "postgres://postgres:1994Daniel@localhost:5432/jakku_fastfood";
 
 
 // use body parser
@@ -45,7 +45,8 @@ app.get("/board",function(req,resp){
 });
 
 app.get("/kitchen",function(req,resp){
-    if(req.session.username){
+    console.log(req.session.position);
+    if(req.session.username && req.session.position=="kitchen"){
         resp.sendFile(pF+"/kitchen.html");  
     }else{
         resp.sendFile(pF+"/kitchen_login.html");
@@ -54,11 +55,12 @@ app.get("/kitchen",function(req,resp){
 });
 
 app.get("/management", function(req, resp){
-    resp.sendFile(pF+"/management.html")
-});
-
-app.get("/adminlogin", function(req, resp){
-    resp.sendFile(pF+"/admin_login.html");
+    console.log(req.session.position);
+    if(req.session.username && req.session.position=="admin"){
+        resp.sendFile(pF+"/management.html")
+    }else{
+        resp.sendFile(pF+"/admin_login.html");
+    }
 });
 
 
@@ -66,7 +68,7 @@ app.post("/adminLogin", function(req, resp){
     
     var password = req.body.password;
     var username = req.body.username;
-    
+    var position = req.body.position;
     
     pg.connect(dbURL, function(err, client, done){
         if(err){
@@ -77,8 +79,8 @@ app.post("/adminLogin", function(req, resp){
             }
             resp.send(obj);
         }
-        client.query("SELECT username, id FROM employee WHERE username = $1 and password = $2",
-                    [ username, password], function(err, result){
+        client.query("SELECT username, id,position FROM employee WHERE username = $1 and password = $2 and position = $3",
+                    [ username, password, position], function(err, result){
             done();
             if(err){
                 console.log(err);
@@ -90,6 +92,7 @@ app.post("/adminLogin", function(req, resp){
             if(result.rows.length >0){
                 req.session.id = result.rows[0].id;
                 req.session.username = result.rows[0].username;
+                req.session.position = result.rows[0].position;
                 var obj = {
                     status: "success"
                 }
@@ -112,6 +115,7 @@ app.get("/kitchenlogin", function(req, resp){
 app.post("/kitchenlogin", function(req, resp){
     var username = req.body.username;
     var password = req.body.password;
+    var position = req.body.position;
     
     pg.connect(dbURL, function(err, client, done){
         if(err){
@@ -119,7 +123,7 @@ app.post("/kitchenlogin", function(req, resp){
             resp.end("FAIL");
         }
         
-        client.query("SELECT username, id FROM employee WHERE username = $1 AND password = $2", [username, password], function(err, result){
+        client.query("SELECT username, id, position FROM employee WHERE username = $1 AND password = $2 and position = $3", [username, password,position], function(err, result){
             done();
             if(err){
                 console.log(err);
@@ -129,6 +133,8 @@ app.post("/kitchenlogin", function(req, resp){
             if(result.rows.length > 0){
                 req.session.username = result.rows[0].username;
                 req.session.id = result.rows[0].id;
+                req.session.position = result.rows[0].position;
+                console.log(result.rows[0]);
                 var obj = {
                     status:"success"
                 }
@@ -259,6 +265,62 @@ io.on("connection",function(socket){
         });
         
         
+    });
+    socket.on("start cook",function(){
+       query = "SELECT order_details.id,order_details.order_number,food.name,order_details.quantity,order_details.status from order_details LEFT JOIN food ON order_details.food_number = food.id WHERE status = 0 ORDER BY order_details.order_number ASC";
+        runQuery(query,function(result){
+            console.log("hey");
+            cooking = true;
+            var i=0;
+            
+            var interval = setInterval(function(){
+                if(i < result.length && cooking){
+                    var obj = result[i];
+                    console.log(obj);
+                    //------//
+                    
+                    var order_detail_id = obj.id;
+                    console.log(order_detail_id);
+
+                    // database update on order_detail table 
+                    var query = "UPDATE order_details SET status=1 WHERE id="+order_detail_id+" RETURNING order_number";
+                    runQuery(query,function(result){
+                        order_number = result[0].order_number;
+                        var query2 = "SELECT * FROM order_details WHERE order_number="+order_number;
+                        console.log(query2);
+                        runQuery(query2,function(result){
+                            var order_status = true;
+                            for(var i=0;i<result.length;i++){
+                                if(result[i].status==0){
+                                    order_status = false;
+                                }
+                            }
+                            if(order_status){
+                                var query3 = "UPDATE orders SET order_status = 1 WHERE id ="+order_number+" RETURNING id";
+                                console.log(query3);
+                                runQuery(query3,function(result){
+                                    console.log(result[0].id);
+                                    id = result[0].id;
+                                    io.sockets.emit("update board",id);
+                                });
+                            }
+
+                        })
+                        obj.order_detail_id = obj.id;
+                        socket.emit("update order detail",obj);
+                    });
+                    
+                    //----//
+                    console.log(i);
+                    i++;
+                }else{
+                    clearInterval(interval);
+                    
+                }
+            },5000);
+            
+           
+        }); 
     });
 });
 

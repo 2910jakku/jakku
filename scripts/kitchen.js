@@ -1,9 +1,22 @@
 var socket;
+
 $(document).ready(function(){
     var display = document.getElementById("display");
     var order_list_table = document.getElementById("order_list_table");
+    var cookBtn = document.getElementById("cookBtn");
+    
+    // initialize the socket
     initSockets();
+    
+    // handle socket actions
     socketHandle();
+    
+    // handle cook button click
+    cookBtn.addEventListener("click",function(){
+        socket.emit("start cook");
+    });
+    
+    // load the order details when document ready
     $.ajax({
         url:"/kitchen",
         type:"post",
@@ -21,6 +34,7 @@ function initSockets(){
     socket = io();
 }
 
+// handle response from server socket
 function socketHandle(){
     socket.on("update order detail",function(obj){
         console.log(obj);
@@ -34,6 +48,7 @@ function socketHandle(){
     });
 }
 
+// load order details from database
 function loadOrders(resp){
     xdiv = document.createElement("div");
     display.appendChild(xdiv);

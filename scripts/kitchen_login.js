@@ -9,7 +9,8 @@ $(document).ready(function(){
             type:"post",
             data:{
                 username:username,
-                password:password
+                password:password,
+                position:"kitchen"
             },
             success:function(resp){
                 if(resp.status == "success"){
