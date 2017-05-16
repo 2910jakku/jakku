@@ -2,14 +2,21 @@
 <html>
     <head>
         <title>KITCHEN LOGIN PAGE</title>
+        <link rel="stylesheet" type="text/css" href="../css/kitchen_login.css">
     </head>
     <body>
-        <div id='controls'>
-            <input type='text' id='username' placeholder='Type username here' />
-            <input type='text' id='password' placeholder='Type password here' />
-            <button id='login'>LOGIN</button>
+        <div class='container'>
+            <img src='https://mrcrollas.co.uk/ordering/images/mrcrollas-chef.jpg'>
+            <form>
+                <div class='form-input'>
+                    <input type='text' id='username' placeholder='Type username here' />
+                </div>
+                <div class='form-input'>
+                    <input type='text' id='password' placeholder='Type password here' />
+                </div>
+                <button id='login'><span>LOGIN</span></button>
+            </form>
         </div>
         <script src="/scripts/kitchen_loginbundle.js"></script>
     </body>
 </html>
-

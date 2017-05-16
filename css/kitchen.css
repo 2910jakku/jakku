@@ -1,0 +1,16 @@
+#display{
+    font-family:Verdana;
+}
+
+#order_list_table{
+    width:100%;
+}
+
+table, th, td{
+    border:1px solid black;
+    padding:5px;
+}
+
+th, td{
+    width:auto;
+}
