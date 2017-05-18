@@ -39,9 +39,16 @@ function socketHandle(){
 function loadOrderDetails(resp){
     for(var i=0;i<resp.length;i++){
         var time = resp[i].order_date.replace(/T/, ' ').replace(/\..+/, '');
+        var order_status;
+        if (resp[i].order_status == 1){
+            order_status = "Done";
+        }else if(resp[i].order_status == 0){
+            order_status = "Preparing";
+        }
+        
         ndiv = document.createElement("tr");
         ndiv.id = resp[i].id;
-        ndiv.innerHTML = "<td>"+resp[i].id+"</td><td>"+resp[i].order_status+"</td><td>"+time+"</td>";
+        ndiv.innerHTML = "<td>"+resp[i].id+"</td><td>"+order_status+"</td><td>"+time+"</td>";
         status_board.appendChild(ndiv);            
     }
 }

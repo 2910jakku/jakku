@@ -42,6 +42,13 @@ function socketHandle(){
         $(node).remove();
     });
     
+    socket.on("cooked order detail",function(obj){
+        var node = document.getElementById(obj.order_detail_id);
+        var childNodes = node.childNodes; 
+        console.log(childNodes);
+        childNodes[5].style.display = "block";
+    });
+    
     socket.on("add order details",function(result){
        console.log(result);
         loadOrders(result);
@@ -56,8 +63,9 @@ function loadOrders(resp){
         // create table and button to append data into page
         
         nDBtn = document.createElement("button");
-        nDBtn.innerHTML = "done";
+        nDBtn.innerHTML = "pack";
         nDBtn.id = resp[i].id;
+        nDBtn.style.display = "none";
         ndiv = document.createElement("tr");
         ndiv.id = resp[i].id;
         ndiv.innerHTML = "<td>"+resp[i].order_number+"</td><td>"+resp[i].id+"</td><td>"+resp[i].name+"</td><td>"+resp[i].quantity+"</td><td>"+resp[i].status+"</td>";
@@ -66,10 +74,8 @@ function loadOrders(resp){
         // once the "done" button clicked emit the oreder detail id and update db in server
         nDBtn.addEventListener("click",function(){
             console.log(this.id);
-            //console.log(resp[this.id].order_number);
             var obj = {
                 order_detail_id:this.id
-                //order_number:order_id
             };
             socket.emit("order detail done",obj);
         });
