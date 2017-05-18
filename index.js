@@ -35,6 +35,8 @@ app.use("/scripts",express.static("build"));
 
 app.use("/css",express.static("css"));
 
+app.use("/test",express.static("test"));
+
 //root folder
 app.get("/", function(req, resp){
     resp.sendFile(pF+"/order.html");
@@ -307,7 +309,7 @@ io.on("connection",function(socket){
 
                         })
                         obj.order_detail_id = obj.id;
-                        socket.emit("update order detail",obj);
+                        socket.emit("cooked order detail",obj);
                     });
                     
                     //----//
