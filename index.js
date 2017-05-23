@@ -65,7 +65,7 @@ app.get("/management", function(req, resp){
     }
 });
 
-
+/*-----------------------------ADMIN LOGIN---------------------------*/
 app.post("/adminLogin", function(req, resp){
     
     var password = req.body.password;
@@ -108,10 +108,6 @@ app.post("/adminLogin", function(req, resp){
     });
 });
 
-
-app.get("/kitchenlogin", function(req, resp){
-    resp.sendFile(pF+"/kitchen_login.html");
-});
 /*-----------------------------KITCHEN LOGIN---------------------------*/
 //kitchen login
 app.post("/kitchenlogin", function(req, resp){
@@ -150,6 +146,7 @@ app.post("/kitchenlogin", function(req, resp){
 });
 /*-----------------------------KITCHEN LOGIN ENDS---------------------------*/
 
+// handle order actions
 app.post("/order",function(req,resp){
     // read menu from db
    if(req.body.type == "read menu"){
@@ -187,7 +184,7 @@ app.post("/order",function(req,resp){
             }
         }
         
-        // place the order
+        // place the order in input valid
         if(valid){
             var order_id;
             var query = "INSERT INTO orders (order_status) VALUES (0) RETURNING id,order_status,order_date";
@@ -215,6 +212,7 @@ app.post("/order",function(req,resp){
     }
 });
 
+// read order detail status from db
 app.post("/board",function(req,resp){
     if(req.body.type == "read order status"){
         query = "SELECT * FROM orders ORDER BY id ASC";
@@ -224,6 +222,7 @@ app.post("/board",function(req,resp){
     }
 });
 
+// read order from db
 app.post("/kitchen",function(req,resp){
     if(req.body.type == "read order detail"){
         query = "SELECT order_details.id,order_details.order_number,food.name,order_details.quantity,order_details.status from order_details LEFT JOIN food ON order_details.food_number = food.id WHERE status = 0 ORDER BY order_details.order_number ASC";
@@ -235,6 +234,8 @@ app.post("/kitchen",function(req,resp){
 
 // socket 
 io.on("connection",function(socket){
+    var cooking = true;
+    
     socket.on("order detail done",function(obj){
         var order_detail_id = obj.order_detail_id;
         console.log(order_detail_id);
@@ -252,6 +253,7 @@ io.on("connection",function(socket){
                         order_status = false;
                     }
                 }
+                // check a order's order_details(items) are all cooked 
                 if(order_status){
                     var query3 = "UPDATE orders SET order_status = 1 WHERE id ="+order_number+" RETURNING id";
                     console.log(query3);
@@ -268,13 +270,14 @@ io.on("connection",function(socket){
         
         
     });
+    
+    // auto cook order details
     socket.on("start cook",function(){
+        cooking = true;
        query = "SELECT order_details.id,order_details.order_number,food.name,order_details.quantity,order_details.status from order_details LEFT JOIN food ON order_details.food_number = food.id WHERE status = 0 ORDER BY order_details.order_number ASC";
         runQuery(query,function(result){
             console.log("hey");
-            cooking = true;
             var i=0;
-            
             var interval = setInterval(function(){
                 if(i < result.length && cooking){
                     var obj = result[i];
@@ -324,9 +327,12 @@ io.on("connection",function(socket){
            
         }); 
     });
+    socket.on("stop cook",function(){
+        cooking = false;
+    });
 });
 
-// run query
+// run query on database
 function runQuery(myQuery,callback){
     pg.connect(dbURL,function(err,client,done){
        if(err){

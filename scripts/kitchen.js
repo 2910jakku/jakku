@@ -4,6 +4,7 @@ $(document).ready(function(){
     var display = document.getElementById("display");
     var order_list_table = document.getElementById("order_list_table");
     var cookBtn = document.getElementById("cookBtn");
+    var stopCookBtn = document.getElementById("stopCookBtn");
     
     // initialize the socket
     initSockets();
@@ -16,6 +17,10 @@ $(document).ready(function(){
         socket.emit("start cook");
     });
     
+    // handle stop cook button click
+    stopCookBtn.addEventListener("click",function(){
+        socket.emit("stop cook");
+    });
     // load the order details when document ready
     $.ajax({
         url:"/kitchen",
