@@ -28,7 +28,7 @@ describe("Order page",function(){
                 .post("/order")
                 .set('content-type', 'application/x-www-form-urlencoded')
                 .send(data)
-                .end((err,resp) =>{
+                .end(function(err,resp){
                 //console.log(resp.body);
                 resp.body.should.have.property("order_id");
                 resp.body.should.have.property("status");
