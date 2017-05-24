@@ -47,8 +47,8 @@ app.get("/board",function(req,resp){
 });
 
 app.get("/kitchen",function(req,resp){
-    console.log(req.session.position);
-    if(req.session.username && req.session.position=="kitchen"){
+    console.log(req.session.username);
+    if(req.session.username && req.session.position =="kitchen"){
         resp.sendFile(pF+"/kitchen.html");  
     }else{
         resp.sendFile(pF+"/kitchen_login.html");
@@ -132,6 +132,7 @@ app.post("/kitchenlogin", function(req, resp){
                 req.session.username = result.rows[0].username;
                 req.session.id = result.rows[0].id;
                 req.session.position = result.rows[0].position;
+                console.log(req.session.username);
                 console.log(result.rows[0]);
                 var obj = {
                     status:"success"
@@ -228,6 +229,48 @@ app.post("/kitchen",function(req,resp){
         query = "SELECT order_details.id,order_details.order_number,food.name,order_details.quantity,order_details.status from order_details LEFT JOIN food ON order_details.food_number = food.id WHERE status = 0 ORDER BY order_details.order_number ASC";
         runQuery(query,function(result){
            resp.send(result);
+        });
+    }
+});
+
+app.post("/management",function(req,resp){
+    if(req.body.type == "read food"){
+        var query = "select * from food";
+        var result = runQuery(query,function(result){
+           resp.send(result);
+        });
+        
+    }
+   if(req.body.type == "delete food"){
+       id = req.body.id;
+       query = "DELETE FROM order_details WHERE food_number = " + id;
+       runQuery(query,function(result){
+       });
+       query2 = "DELETE FROM food WHERE id = "+id;
+       runQuery(query2,function(result){
+           resp.send("successfully delete");
+       });
+       
+       // + socket all clients to refresh page
+       io.sockets.emit("reload page");
+   } 
+    if (req.body.type == "add food"){
+        name = req.body.name;
+        desp = req.body.desp;
+        price = req.body.price;
+        url = req.body.url;
+        query = "INSERT INTO food (name,description,price,url,available) VALUES ('"+name+"','"+desp+"',"+price+",'"+url+"',false)";
+        console.log(query);
+        runQuery(query,function(result){
+            resp.send("successfully add");
+        });
+    }
+    if(req.body.type == "change menu"){
+        available = req.body.available;
+        id = req.body.id;
+        query = "UPDATE food SET available = "+available+" WHERE id = "+id;
+        runQuery(query,function(){
+           resp.send("successfully changed"); 
         });
     }
 });
