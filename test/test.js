@@ -19,17 +19,17 @@ describe("Order page",function(){
     
     describe("POST /",function(){
         it("return obj that contains order_detail_id and status (valid order)",function(done){
-            let data = {
+            var data = {
                 type:"submit order",
                 order_item_id:1,
                 order_quantity:1
-            }
+            };
             chai.request(url)
                 .post("/order")
                 .set('content-type', 'application/x-www-form-urlencoded')
                 .send(data)
                 .end((err,resp) =>{
-                console.log(resp.body);
+                //console.log(resp.body);
                 resp.body.should.have.property("order_id");
                 resp.body.should.have.property("status");
                 resp.body.status.should.equal("order successfully placed");
