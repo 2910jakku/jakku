@@ -37,6 +37,10 @@ function socketHandle(){
         console.log(result)
        loadOrderDetails(result);
     });
+    
+    socket.on("reload page",function(result){
+       location.reload(); 
+    });
 }
 
 // load order details from db
