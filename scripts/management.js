@@ -20,12 +20,15 @@ var addItemBtn = document.getElementById("addItemBtn");
 var IOrderNumber = document.getElementById("IOrderNumber");
 var deleteOrderBtn = document.getElementById("deleteOrderBtn");
 
+Morder.style.display = "none";
+
 $(document).ready(function(){
-    // hide divs
-    Mmenu.style.display = "none";
-    Morder.style.display = "none";
-    
-    // read the food list
+    foodAjax()
+    addEvent();
+});
+
+// read the food list
+function foodAjax(){
     $.ajax({
         url:"/management",
         type:"post",
@@ -37,12 +40,11 @@ $(document).ready(function(){
             loadFoods(resp);
         }
     });
-    
-    addEvent();
-});
+}
 
-// load food inventory for manage menu
+// load food inventory for manage menu and append to html
 function loadFoods(resp){
+    clearTableRow();
     for(var i=0;i<resp.length;i++){
         // delete button
         nDBtn = document.createElement("button");
@@ -124,6 +126,14 @@ function loadFoods(resp){
     }
 }
 
+function clearTableRow(){
+    var node = document.getElementById("menuTable");
+    console.log(node.childNodes);
+    while (node.childNodes.length>2) {
+        node.removeChild(node.lastChild);
+    }
+}
+
 function addEvent(){
     addItemBtn.addEventListener("click",function(){
         $.ajax({
@@ -137,12 +147,9 @@ function addEvent(){
                 price:IFoodPrice.value
             },
             success:function(resp){
-                console.log(resp);
-                if(resp == "successful"){
-                    alert("successfully add");
-                }else{
-                    alert("fail add");
-                }
+                getResp(resp);
+                foodAjax();
+                
             }
         })
     });
@@ -157,7 +164,8 @@ function addEvent(){
                 id:IOrderNumber.value
             },
             success:function(resp){
-                console.log(resp);
+                getResp(resp);
+                
             }
             
        });
@@ -175,4 +183,14 @@ function addEvent(){
         Mmenu.style.display = "none";
     });
     
+}
+
+function getResp(resp){
+    if(resp == "successful"){
+        alert("action successful");
+    }else if(resp=="fail"){
+        alert("input invalid");
+    }else {
+        alert("server fail");
+    }
 }

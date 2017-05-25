@@ -259,11 +259,19 @@ app.post("/management",function(req,resp){
         desp = req.body.desp;
         price = req.body.price;
         url = req.body.url;
-        query = "INSERT INTO food (name,description,price,url,available) VALUES ('"+name+"','"+desp+"',"+price+",'"+url+"',false)";
-        console.log(query);
-        runQuery(query,function(result){
-            resp.send("successful");
-        });
+        var NumberRegEx = /^[0-9]{0,}$/;
+        var NameRegEx = /^[a-zA-Z0-9\s]{1,50}$/;
+        console.log(desp.length);
+        if(NameRegEx.test(name) && desp.length<200 && NumberRegEx.test(price) && url.length<300){
+           query = "INSERT INTO food (name,description,price,url,available) VALUES ('"+name+"','"+desp+"',"+price+",'"+url+"',false)";
+            console.log(query);
+            runQuery(query,function(result){
+                resp.send("successful");
+            });
+        }else{
+            resp.send("fail");
+        }
+        
     }
     if(req.body.type == "change menu"){
         available = req.body.available;
@@ -274,16 +282,23 @@ app.post("/management",function(req,resp){
         });
     }
     if(req.body.type == "delete detail"){
-        id = req.body.id;
-        query = "DELETE FROM order_details WHERE id = "+id;
-        runQuery(query,function(result){
-            resp.send("successful");
-            
-        });
-        var obj = {
-            order_detail_id:id
+        var NumberRegEx = /^[0-9]{0,}$/;
+        var id = req.body.id;
+        if(NumberRegEx.test(id)){
+            query = "DELETE FROM order_details WHERE id = "+id;
+            runQuery(query,function(result){
+                resp.send("successful");
+
+            });
+            var obj = {
+                order_detail_id:id
+            }
+            io.sockets.emit("update order detail",obj);
+        }else{
+            resp.send("fail");
         }
-        io.sockets.emit("update order detail",obj);
+        
+        
     }
 });
 
