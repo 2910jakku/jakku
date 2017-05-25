@@ -16,7 +16,7 @@ var io = require("socket.io")(server);
 
 // postgres
 // database url
-var dbURL = process.env.DATABASE_URL || "postgres://postgres:1994Daniel@localhost:5432/jakku_fastfood";
+var dbURL = process.env.DATABASE_URL || "postgres://xiiwdubczikmcg:77caeaa4de4e66c4d79e469804b4ddb3a4adb9ed5d8b66849e8c0e8e5d7af9e5@ec2-23-23-228-115.compute-1.amazonaws.com:5432/d5pct0ev299qq8";
 
 
 // use body parser

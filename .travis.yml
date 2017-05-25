@@ -5,9 +5,3 @@ services:
     - postgresql
 before_script:
   - psql -c 'create database jakku_fastfood;' -U postgres
-  - psql -c 'create table orders (id serial primary key, order_date timestamp default now(), order_status integer);' -U postgres
-  - psql -c 'create table employee (id serial primary key, username varchar(50),password varchar(50),position varchar(50));' -U postgres
-  - psql -c 'create table food(id serial primary key,name varchar(50),description varchar(200), price double precision,url varchar(300), available boolean);' -U postgres
-  - psql -c 'create table order_details (id serial primary key, food_number integer REFERENCES food (id), order_number integer REFERENCES orders (id),quantity integer, status integer);' -U postgres
-  
-  
