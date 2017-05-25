@@ -1,0 +1,171 @@
+
+            body
+            {
+                height: 1500px;
+                background: linear-gradient(cornflowerblue, aquamarine);
+                background-repeat: no-repeat;
+            }
+            #menu
+            {
+                
+                color: floralwhite;
+                font-size: 35px;
+                font-family:cursive;
+            }
+
+             hr
+            {
+                display: block;
+                border-style: inset;
+                border-color: darkorange;
+                border-width: thick;
+            }
+
+            .main img{
+                position: relative;
+                height: 250px;
+                border-radius:50%;
+                margin-top: 35px;
+                margin-bottom: 30px;
+                width: 250px;
+                left: 75px;
+            }
+            .main{
+                width: auto;
+            }
+            #sname{
+            top: 35px;
+            right:-80px;
+            left: 20px;
+            font-family:cursive;
+            font-size: 75px;
+            color:darkorange;
+            position:absolute;
+            }
+
+#itemName{
+    color:darkolivegreen;
+    font-family:sans-serif;
+    position: relative;
+    font-size: 25px;
+}
+#itemPrice{
+    color:crimson;
+    font-family: "Verdana";
+    position: relative;
+    font-size: 20px;
+}
+#itemQuantity{
+    color:crimson;
+    font-family: "Verdana";
+    position: relative;
+    font-size: 20px;
+}
+            
+            #statusButton{
+                            display: inline-block;
+              -webkit-box-sizing: content-box;
+              -moz-box-sizing: content-box;
+              box-sizing: content-box;
+              cursor:pointer;
+              padding: 10px 20px;
+            color: aliceblue;
+                border: 1px solid;
+              -webkit-border-radius: 3px;
+              border-radius: 3px;
+              font: normal 16px/normal "Times New Roman", Times, serif;
+              -o-text-overflow: clip;
+              text-overflow: clip;
+              background-color:darkblue;
+              position:relative;
+            left: 460px;
+            right: 0px;
+             top: 400px;
+              -webkit-box-shadow: 2px 2px 2px 0 rgba(0,0,0,0.2) ;
+              box-shadow: 2px 2px 2px 0 rgba(0,0,0,0.2) ;
+              text-shadow: -1px -1px 0 rgba(15,73,168,0.66) ;
+              -webkit-transition: all 300ms cubic-bezier(0.42, 0, 0.58, 1);
+              -moz-transition: all 300ms cubic-bezier(0.42, 0, 0.58, 1);
+              -o-transition: all 300ms cubic-bezier(0.42, 0, 0.58, 1);
+              transition: all 300ms cubic-bezier(0.42, 0, 0.58, 1);
+            }
+
+
+             #placeButton{
+              display: inline-block;
+                    right:0px;
+              -webkit-box-sizing: content-box;
+              -moz-box-sizing: content-box;
+              box-sizing: content-box;
+              cursor:pointer;
+              padding: 10px 20px;
+              color: aliceblue;
+              border-color: blue;
+              border: 1px solid;
+                position: relative;
+                top: 100px;
+                left:590px;
+              -webkit-border-radius: 3px;
+              border-radius: 3px;
+              font: normal 16px/normal "Times New Roman", Times, serif;
+              -o-text-overflow: clip;
+              text-overflow: clip;
+              background-color:darkblue;
+              -webkit-box-shadow: 2px 2px 2px 0 rgba(0,0,0,0.2) ;
+              box-shadow: 2px 2px 2px 0 rgba(0,0,0,0.2) ;
+              text-shadow: -1px -1px 0 rgba(15,73,168,0.66) ;
+              -webkit-transition: all 300ms cubic-bezier(0.42, 0, 0.58, 1);
+              -moz-transition: all 300ms cubic-bezier(0.42, 0, 0.58, 1);
+              -o-transition: all 300ms cubic-bezier(0.42, 0, 0.58, 1);
+              transition: all 300ms cubic-bezier(0.42, 0, 0.58, 1);
+            }
+
+.addBtn{
+    display: inline-block;
+            right:0px;
+              -webkit-box-sizing: content-box;
+              -moz-box-sizing: content-box;
+              box-sizing: content-box;
+              cursor:pointer;
+              padding: 10px 20px;
+              color: aliceblue;
+              border-color: blue;
+              border: 1px solid;
+              position: relative;
+              -webkit-border-radius: 3px;
+              border-radius: 3px;
+              font: normal 16px/normal "Times New Roman", Times, serif;
+              -o-text-overflow: clip;
+              text-overflow: clip;
+              background-color:darkblue;
+              -webkit-box-shadow: 2px 2px 2px 0 rgba(0,0,0,0.2) ;
+              box-shadow: 2px 2px 2px 0 rgba(0,0,0,0.2) ;
+              text-shadow: -1px -1px 0 rgba(15,73,168,0.66) ;
+              -webkit-transition: all 300ms cubic-bezier(0.42, 0, 0.58, 1);
+              -moz-transition: all 300ms cubic-bezier(0.42, 0, 0.58, 1);
+              -o-transition: all 300ms cubic-bezier(0.42, 0, 0.58, 1);
+              transition: all 300ms cubic-bezier(0.42, 0, 0.58, 1);
+}
+
+.enjoy{
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  width: 350px;
+  height: 150px;
+  border: none;
+  font: normal 16px/1 "Times New Roman", Times, serif;
+  color: rgba(255,255,255,1);
+  text-align: center;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  -webkit-box-shadow: 0 1px 18px 3px rgba(0,150,255,0.91) inset;
+  box-shadow: 0 1px 18px 3px rgba(0,150,255,0.91) inset;
+}
+
+#order_list{
+    color: darkorange;
+    font-size: 25px;
+    background-color: bisque;
+    text-align: center;
+}
