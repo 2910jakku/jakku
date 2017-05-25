@@ -16,7 +16,7 @@ var io = require("socket.io")(server);
 
 // postgres
 // database url
-var dbURL = process.env.DATABASE_URL || "postgres://postgres:1994Daniel@localhost:5432/jakku_fastfood";
+var dbURL = process.env.DATABASE_URL || "postgres://xiiwdubczikmcg:77caeaa4de4e66c4d79e469804b4ddb3a4adb9ed5d8b66849e8c0e8e5d7af9e5@ec2-23-23-228-115.compute-1.amazonaws.com:5432/d5pct0ev299qq8?ssl=true";
 
 
 // use body parser
@@ -47,8 +47,8 @@ app.get("/board",function(req,resp){
 });
 
 app.get("/kitchen",function(req,resp){
-    console.log(req.session.position);
-    if(req.session.username && req.session.position=="kitchen"){
+    console.log(req.session.username);
+    if(req.session.username && req.session.position =="kitchen"){
         resp.sendFile(pF+"/kitchen.html");  
     }else{
         resp.sendFile(pF+"/kitchen_login.html");
@@ -132,6 +132,7 @@ app.post("/kitchenlogin", function(req, resp){
                 req.session.username = result.rows[0].username;
                 req.session.id = result.rows[0].id;
                 req.session.position = result.rows[0].position;
+                console.log(req.session.username);
                 console.log(result.rows[0]);
                 var obj = {
                     status:"success"
@@ -231,6 +232,61 @@ app.post("/kitchen",function(req,resp){
         });
     }
 });
+
+app.post("/management",function(req,resp){
+    if(req.body.type == "read food"){
+        var query = "select * from food";
+        var result = runQuery(query,function(result){
+           resp.send(result);
+        });
+        
+    }
+   if(req.body.type == "delete food"){
+       id = req.body.id;
+       query = "DELETE FROM order_details WHERE food_number = " + id;
+       runQuery(query,function(result){
+       });
+       query2 = "DELETE FROM food WHERE id = "+id;
+       runQuery(query2,function(result){
+           resp.send("successfully delete");
+       });
+       
+       // + socket all clients to refresh page
+       io.sockets.emit("reload page");
+   } 
+    if (req.body.type == "add food"){
+        name = req.body.name;
+        desp = req.body.desp;
+        price = req.body.price;
+        url = req.body.url;
+        query = "INSERT INTO food (name,description,price,url,available) VALUES ('"+name+"','"+desp+"',"+price+",'"+url+"',false)";
+        console.log(query);
+        runQuery(query,function(result){
+            resp.send("successful");
+        });
+    }
+    if(req.body.type == "change menu"){
+        available = req.body.available;
+        id = req.body.id;
+        query = "UPDATE food SET available = "+available+" WHERE id = "+id;
+        runQuery(query,function(){
+           resp.send("successfully changed"); 
+        });
+    }
+    if(req.body.type == "delete detail"){
+        id = req.body.id;
+        query = "DELETE FROM order_details WHERE id = "+id;
+        runQuery(query,function(result){
+            resp.send("successful");
+            
+        });
+        var obj = {
+            order_detail_id:id
+        }
+        io.sockets.emit("update order detail",obj);
+    }
+});
+
 
 // socket 
 io.on("connection",function(socket){

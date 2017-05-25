@@ -4,11 +4,14 @@ var placeButton = document.getElementById("placeButton");
 var statusButton = document.getElementById("statusButton");
 var order_item_id = [];
 var order_quantity = [];
+var socket;
 
 // when page loaded
 $(document).ready(function(){
     clearOrderList();
     addEvent();
+    initSocket();
+    socketHandle();
 });
     
 // send request to get the menu 
@@ -51,8 +54,16 @@ function addEvent(){
                 var item_id = parseInt(parent_div_id[parent_div_id.length-1]);
 
                 var quantity = $("#"+parent_div_id+" #itemQuantity")[1].value;
-                console.log(quantity);
-                var item_name = food_list[item_id - 1].name;
+                console.log(item_id);
+                console.log(parent_div_id);
+                var item_name;
+                
+                // search item name in the food list
+                for(var i=0;i<food_list.length;i++){
+                    if(food_list[i].id = item_id){
+                        item_name = food_list[i].name;
+                    }
+                }
 
                 order_list.innerHTML += "<div>Name: "+item_name+ " Quantity: " +quantity +"</div>";
 
@@ -94,6 +105,16 @@ function addEvent(){
     // "view status" button to view order status
     statusButton.addEventListener("click",function(){
         location.href = "/board";
+    });
+}
+
+function initSocket(){
+    socket = io();
+}
+// socket handle
+function socketHandle(){
+    socket.on("reload page",function(){
+        location.reload();
     });
 }
 

@@ -58,6 +58,10 @@ function socketHandle(){
        console.log(result);
         loadOrders(result);
     });
+    
+    socket.on("reload page",function(result){
+        location.reload();
+    });
 }
 
 // load order details from database
