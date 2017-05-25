@@ -160,7 +160,7 @@ app.post("/order",function(req,resp){
     if(req.body.type == "submit order"){
         var order_item_id = req.body.order_item_id;
         var order_quantity = req.body.order_quantity;
-        var NumberRegEx = /^[1-9][0-9]{0,2}?$/;
+        var NumberRegEx = /^[1-7]?$/;
         var valid = true;
         
         // input validation
