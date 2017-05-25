@@ -3,6 +3,7 @@ body{
     background: url("http://dreamicus.com/data/desert/desert-08.jpg");
     background-repeat: no-repeat;
     background-size: 100% 720px;
+    position: fixed;
 }
 
 #display{
