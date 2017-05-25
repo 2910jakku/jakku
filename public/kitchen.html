@@ -3,9 +3,20 @@
     <head>
         <title>Kitchen</title>
         <link rel="stylesheet" type="text/css" href="../css/kitchen.css" />
+        <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     </head>
     <body id="display">
+        <div class = " col-md-12  col-ex-12">
         <h1 class='retroshadow'>KITCHEN</h1>
+            </div>
+        <div class = "col-md-12  col-ex-12">
         <table id="order_list_table">
             <tr>
                 <th>Order Number</th>
@@ -16,11 +27,16 @@
                 <th>Complete</th>
             </tr>
         </table>
+            </div>
+        <div class = "col-md-8  col-ex-12">
         <div id="cookPanel">
             <button id="cookBtn">start cook</button>
             <button id="stopCookBtn">stop cook</button>
         </div>
+            </div>
     </body>
     <script src="/scripts/kitchenbundle.js"></script>
     <script src="/socket.io/socket.io.js"></script>
 </html>
+
+
