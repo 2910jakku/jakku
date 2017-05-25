@@ -16,7 +16,7 @@ var io = require("socket.io")(server);
 
 // postgres
 // database url
-var dbURL = process.env.DATABASE_URL || "postgres://xiiwdubczikmcg:77caeaa4de4e66c4d79e469804b4ddb3a4adb9ed5d8b66849e8c0e8e5d7af9e5@ec2-23-23-228-115.compute-1.amazonaws.com:5432/d5pct0ev299qq8";
+var dbURL = process.env.DATABASE_URL || "postgres://xiiwdubczikmcg:77caeaa4de4e66c4d79e469804b4ddb3a4adb9ed5d8b66849e8c0e8e5d7af9e5@ec2-23-23-228-115.compute-1.amazonaws.com:5432/d5pct0ev299qq8?ssl=true";
 
 
 // use body parser
@@ -262,7 +262,7 @@ app.post("/management",function(req,resp){
         query = "INSERT INTO food (name,description,price,url,available) VALUES ('"+name+"','"+desp+"',"+price+",'"+url+"',false)";
         console.log(query);
         runQuery(query,function(result){
-            resp.send("successfully add");
+            resp.send("successful");
         });
     }
     if(req.body.type == "change menu"){
@@ -273,7 +273,20 @@ app.post("/management",function(req,resp){
            resp.send("successfully changed"); 
         });
     }
+    if(req.body.type == "delete detail"){
+        id = req.body.id;
+        query = "DELETE FROM order_details WHERE id = "+id;
+        runQuery(query,function(result){
+            resp.send("successful");
+            
+        });
+        var obj = {
+            order_detail_id:id
+        }
+        io.sockets.emit("update order detail",obj);
+    }
 });
+
 
 // socket 
 io.on("connection",function(socket){

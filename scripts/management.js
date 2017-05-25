@@ -1,11 +1,14 @@
 var SMenuBtn = document.getElementById("SMenuBtn");
+var SOrderBtn = document.getElementById("SOrderBtn");
+
+var Mmenu = document.getElementById("Mmenu");
+var Morder = document.getElementById("Morder");
+
 var addItemBtn = document.getElementById("addItemBtn");
 var IFoodName = document.getElementById("IFoodName");
 var IFoodUrl = document.getElementById("IFoodUrl");
 var IFoodDesp = document.getElementById("IFoodDesp");
 var menuTable = document.getElementById("menuTable");
-
-var SMenuBtn = document.getElementById("SMenuBtn");
 
 var IFoodName = document.getElementById("IFoodName");
 var IFoodDesp = document.getElementById("IFoodDesp");
@@ -14,7 +17,15 @@ var IFoodPrice = document.getElementById("IFoodPrice");
 
 var addItemBtn = document.getElementById("addItemBtn");
 
+var IOrderNumber = document.getElementById("IOrderNumber");
+var deleteOrderBtn = document.getElementById("deleteOrderBtn");
+
 $(document).ready(function(){
+    // hide divs
+    Mmenu.style.display = "none";
+    Morder.style.display = "none";
+    
+    // read the food list
     $.ajax({
         url:"/management",
         type:"post",
@@ -127,7 +138,41 @@ function addEvent(){
             },
             success:function(resp){
                 console.log(resp);
+                if(resp == "successful"){
+                    alert("successfully add");
+                }else{
+                    alert("fail add");
+                }
             }
         })
     });
+    
+    deleteOrderBtn.addEventListener("click",function(){
+        if(IOrderNumber)
+        $.ajax({
+            url:"/management",
+            type:"post",
+            data:{
+                type:"delete detail",
+                id:IOrderNumber.value
+            },
+            success:function(resp){
+                console.log(resp);
+            }
+            
+       });
+    });
+    
+    // switch manage section
+    SMenuBtn.addEventListener("click",function(){
+        Mmenu.style.display = "block";
+        Morder.style.display = "none";
+        
+    });
+    
+    SOrderBtn.addEventListener("click",function(){
+        Morder.style.display = "block";
+        Mmenu.style.display = "none";
+    });
+    
 }

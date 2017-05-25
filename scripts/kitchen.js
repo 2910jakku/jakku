@@ -61,7 +61,7 @@ function socketHandle(){
     
     socket.on("reload page",function(result){
         location.reload();
-    })
+    });
 }
 
 // load order details from database
