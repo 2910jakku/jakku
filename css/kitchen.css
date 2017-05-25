@@ -3,6 +3,7 @@
     background: url("https://images.freecreatives.com/wp-content/uploads/2016/02/free-brushed-steel-or-aluminium-background.jpg");
     background-repeat: no-repeat;
     background-size: 100% 720px;
+    position: fixed;
 }
 h1{
     text-align: center; 
