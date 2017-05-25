@@ -1,5 +1,44 @@
 #display{
     font-family:Verdana;
+    background: url("https://images.freecreatives.com/wp-content/uploads/2016/02/free-brushed-steel-or-aluminium-background.jpg");
+    background-repeat: no-repeat;
+    background-size: 100% 720px;
+}
+h1{
+    text-align: center; 
+    font-size:37pt;
+}
+h1.retroshadow {
+  color: #2c2c2c;
+  background-color: #3F7EA6;
+  letter-spacing: .05em;
+  text-shadow: 4px 4px 0px #d5d5d5, 7px 7px 0px rgba(0, 0, 0, 0.2);
+}
+
+button{
+  background: #D9763D;
+  background-image: -webkit-linear-gradient(top, #D9763D, #FF4500);
+  background-image: -moz-linear-gradient(top, #D9763D, ##FF4500);
+  background-image: -ms-linear-gradient(top, #D9763D, ##FF4500);
+  background-image: -o-linear-gradient(top, #D9763D, ##FF4500);
+  background-image: linear-gradient(to bottom, #D9763D, ##FF4500);
+  -webkit-border-radius: 29;
+  -moz-border-radius: 29;
+  border-radius: 29px;
+  font-family: Arial;
+  color: #ffffff;
+  font-size: 18px;
+  padding: 10px 20px 10px 20px;
+  text-decoration: none;
+}
+button:hover {
+  background: #D9763D;
+  background-image: -webkit-linear-gradient(top, #D9763D, #D9763D);
+  background-image: -moz-linear-gradient(top, #D9763D, #D9763D);
+  background-image: -ms-linear-gradient(top, #D9763D, #D9763D);
+  background-image: -o-linear-gradient(top, #D9763D, #D9763D);
+  background-image: linear-gradient(to bottom, #D9763D, #D9763D);
+  text-decoration: none;
 }
 
 #order_list_table{
@@ -13,4 +52,11 @@ table, th, td{
 
 th, td{
     width:auto;
+}
+
+tr:nth-child(even) {
+    background-color: white;
+}
+tr:nth-child(odd) {
+    background-color: white;
 }
