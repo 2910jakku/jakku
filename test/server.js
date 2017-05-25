@@ -10,5 +10,4 @@ describe("Main Page",function(){
            });
        });
     });
-    describe("")
-})
+});
