@@ -60,7 +60,7 @@ function addEvent(){
                 
                 // search item name in the food list
                 for(var i=0;i<food_list.length;i++){
-                    if(food_list[i].id = item_id){
+                    if(food_list[i].id == item_id){
                         item_name = food_list[i].name;
                     }
                 }
